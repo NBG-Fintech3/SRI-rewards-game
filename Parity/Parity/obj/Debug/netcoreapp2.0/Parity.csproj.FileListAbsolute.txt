@@ -1,0 +1,11 @@
+C:\ParityPlatform\Parity\Parity\bin\Debug\netcoreapp2.0\Parity.deps.json
+C:\ParityPlatform\Parity\Parity\bin\Debug\netcoreapp2.0\Parity.runtimeconfig.json
+C:\ParityPlatform\Parity\Parity\bin\Debug\netcoreapp2.0\Parity.runtimeconfig.dev.json
+C:\ParityPlatform\Parity\Parity\bin\Debug\netcoreapp2.0\Parity.dll
+C:\ParityPlatform\Parity\Parity\bin\Debug\netcoreapp2.0\Parity.pdb
+C:\ParityPlatform\Parity\Parity\obj\Debug\netcoreapp2.0\Parity.csproj.CoreCompileInputs.cache
+C:\ParityPlatform\Parity\Parity\obj\Debug\netcoreapp2.0\Parity.AssemblyInfoInputs.cache
+C:\ParityPlatform\Parity\Parity\obj\Debug\netcoreapp2.0\Parity.AssemblyInfo.cs
+C:\ParityPlatform\Parity\Parity\obj\Debug\netcoreapp2.0\Parity.dll
+C:\ParityPlatform\Parity\Parity\obj\Debug\netcoreapp2.0\Parity.pdb
+C:\ParityPlatform\Parity\Parity\obj\Debug\netcoreapp2.0\Parity.csprojResolveAssemblyReference.cache
