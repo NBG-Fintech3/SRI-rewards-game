@@ -56,9 +56,9 @@ handles.qcounter = 1;
 handles.score=0
 handles.results= cell(4,1);
 handles.results{1,1}=['Chris']
-handles.results{2,1}= ['Stefanatos']
-handles.results{3,1}= ['c.stefanatos@parityplatform.com']
-handles.results{4,1}= [0];
+handles.results{1,2}= ['Stefanatos']
+handles.results{1,3}= ['c.stefanatos@parityplatform.com']
+handles.results{1,4}= ['0'];
 
 handles.qnum = 3
 handles.UANSWER = cell(1,3);
@@ -187,11 +187,12 @@ else
     %gameover
     set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
     fileID = fopen('Parity.txt','w');
-    for i=1:4
-    fprintf(fileID,'%s %12s\n',[handles.results{i,1}]);
-    end
-    fclose(fileID)
-    handles.gameover=1
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,1}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,2}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,3}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,4}]);
+     fclose(fileID);
+     handles.gameover=1
 end
 
 % Update handles structure
@@ -212,7 +213,7 @@ if temp == handles.ANSWER{1, handles.qcounter}
     %correct answer
     handles.score= handles.score + 1
 end
-handles.results{:,1}  
+  
 handles.qcounter = handles.qcounter + 1
 if handles.qcounter < handles.qnum
     % move to next question
@@ -222,12 +223,13 @@ set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
  set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})])
 else
     %gameover
-    set(handles.question,'String',[(handles.qtext{1,handles.qnum})])
+    set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
     fileID = fopen('Parity.txt','w');
-    for i=1:4
-    fprintf(fileID,'%s %12s\n',[handles.results{i,1}]);
-    end
-    fclose(fileID)
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,1}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,2}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,3}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,4}]);
+     fclose(fileID);
     handles.gameover=1
 end
 
@@ -260,14 +262,13 @@ else
  set(handles.option1, 'String',[(handles.atext{handles.qnum,1})]);
  set(handles.option2, 'String',[(handles.atext{handles.qnum,2})]);
  set(handles.option3, 'String',[(handles.atext{handles.qnum,3})]);
-    fileID = fopen('Parity.txt','w');
-    for i=1:4
-    fprintf(fileID,'%s %12s\n',[handles.results{i,1}]);
-    end
-    fclose(fileID);
-    handles.gameover=1;
+     fileID = fopen('Parity.txt','w');
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,1}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,2}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,3}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{1,4}]);
+     fclose(fileID);
 end
-
 % Update handles structure
 guidata(hObject, handles);
 
