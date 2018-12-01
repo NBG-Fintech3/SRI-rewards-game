@@ -53,14 +53,20 @@ function sri_game_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for sri_game
 handles.output = 'Yes';
 handles.qcounter = 1;
-handles.name= 'null'
-handles.lastname = 'null'
+handles.score=0
+handles.results= cell(4,1);
+handles.results{1,1}=['Chris']
+handles.results{2,1}= ['Stefanatos']
+handles.results{3,1}= ['c.stefanatos@parityplatform.com']
+handles.results{4,1}= [0];
+
 handles.qnum = 3
 handles.UANSWER = cell(1,3);
 handles.ANSWER = cell(1,3)
 handles.atext= cell(3,3)
 handles.ANSWER{1,1} = char('option2')
-handles.ANSWER{1,2} = char('option2') 
+handles.ANSWER{1,2} = char('option2')
+handles.ANSWER{1,3} = char('option1')
 handles.qtext= cell(1,3)
 handles.qtext{1,1}= ['Socially responsible investing (SRI) is becoming more and more popular for both institutional and retail investors.  It involves :'];
 handles.qtext{1,2}= ['When comparing returns of two European Stock indices : MSCI Europe(general stock index) and MSCI Europe SRI ( exposure to companies with outstanding Environmental, Social and Governance (ESG) ratings and excludes companies whose products have negative social or environmental impacts) whice of the following statements is correct ?'];   
@@ -71,7 +77,7 @@ handles.atext{1,3}=['Allocations in companies that have donated amounts of their
 handles.atext{2,1}=['SRI index returns were lower than the general index. (Socially Responsible investing led to lower performance)']
 handles.atext{2,2}=['SRI index returns were higher than the general index. (Socially Responsible investing led to higher performance)']
 handles.atext{2,3}= [' SRI index returns were negative, since sri allocations are not profit seeking']
-handles.gameover = 0
+handles.gameover = 0;
 % Update handles structure
 guidata(hObject, handles);
 
@@ -163,6 +169,30 @@ function option1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 handles.output = get(hObject,'String');
+temp = get(hObject,'Tag');
+handles.UANSWER{1,handles.qcounter} = temp;
+if temp == handles.ANSWER{1, handles.qcounter}
+    %correct answer
+    handles.score= handles.score + 1
+end
+  
+handles.qcounter = handles.qcounter + 1
+if handles.qcounter < handles.qnum
+    % move to next question
+set(handles.question,'String',[(handles.qtext{1,handles.qcounter})]);
+ set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})]);
+ set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})]);
+ set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})]);
+else
+    %gameover
+    set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+    fileID = fopen('Parity.txt','w');
+    for i=1:4
+    fprintf(fileID,'%s %12s\n',[handles.results{i,1}]);
+    end
+    fclose(fileID)
+    handles.gameover=1
+end
 
 % Update handles structure
 guidata(hObject, handles);
@@ -176,6 +206,33 @@ function option2_Callback(hObject, eventdata, handles)
 % hObject    handle to option2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+temp = get(hObject,'Tag');
+handles.UANSWER{1,handles.qcounter} = temp;
+if temp == handles.ANSWER{1, handles.qcounter}
+    %correct answer
+    handles.score= handles.score + 1
+end
+handles.results{:,1}  
+handles.qcounter = handles.qcounter + 1
+if handles.qcounter < handles.qnum
+    % move to next question
+set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
+ set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})])
+ set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})])
+ set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})])
+else
+    %gameover
+    set(handles.question,'String',[(handles.qtext{1,handles.qnum})])
+    fileID = fopen('Parity.txt','w');
+    for i=1:4
+    fprintf(fileID,'%s %12s\n',[handles.results{i,1}]);
+    end
+    fclose(fileID)
+    handles.gameover=1
+end
+
+% Update handles structure
+guidata(hObject, handles);
 
 % --- Executes on button press in option3.
 function option3_Callback(hObject, eventdata, handles)
@@ -187,11 +244,11 @@ temp = get(hObject,'Tag');
 handles.UANSWER{1,handles.qcounter} = temp;
 if temp == handles.ANSWER{1, handles.qcounter}
     %correct answer
-    handles.score= handles.score + 1
+    handles.score = handles.score + 1
 end
   
 handles.qcounter = handles.qcounter + 1
-if handles.qcounter < 4
+if handles.qcounter < handles.qnum
     % move to next question
 set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
  set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})])
@@ -199,9 +256,16 @@ set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
  set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})])
 else
     %gameover
-    set(handles.question,'String',[(handles.qtext{1,4})])
-    set(handles.option1, 'String',[(handles.atext{2,1})])
-    handles.gameover=1
+ set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+ set(handles.option1, 'String',[(handles.atext{handles.qnum,1})]);
+ set(handles.option2, 'String',[(handles.atext{handles.qnum,2})]);
+ set(handles.option3, 'String',[(handles.atext{handles.qnum,3})]);
+    fileID = fopen('Parity.txt','w');
+    for i=1:4
+    fprintf(fileID,'%s %12s\n',[handles.results{i,1}]);
+    end
+    fclose(fileID);
+    handles.gameover=1;
 end
 
 % Update handles structure
