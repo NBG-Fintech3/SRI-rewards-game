@@ -186,19 +186,15 @@ function option3_Callback(hObject, eventdata, handles)
 temp = get(hObject,'Tag');
 handles.UANSWER{1,handles.qcounter} = temp;
 if temp == handles.ANSWER{1, handles.qcounter}
-    %correct answer
     handles.score= handles.score + 1
 end
   
 handles.qcounter = handles.qcounter + 1
 if handles.qcounter < 4
-    % move to next question
+    
 set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
  set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})])
- set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})])
- set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})])
 else
-    %gameover
     set(handles.question,'String',[(handles.qtext{1,4})])
     set(handles.option1, 'String',[(handles.atext{2,1})])
     handles.gameover=1
