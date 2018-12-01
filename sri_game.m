@@ -57,11 +57,10 @@ ha = axes('units','normalized', ...
 % Move the background axes to the bottom
 uistack(ha,'bottom');
 % Load in a background image and display it using the correct colors
-% The image used below, is in the Image Processing Toolbox.  If you do not have %access to this toolbox, you can use another image file instead.
+% The image used below, is addes as backgrounds.  If you do not have %access to this toolbox, you can use another image file instead.
 I=imread('back.png');
 hi = imagesc(I)
 colormap gray
-% Turn the handlevisibility off so that we don't inadvertently plot into the axes again
 % Also, make the axes invisible
 set(ha,'handlevisibility','off', ...
             'visible','off')
@@ -73,9 +72,8 @@ handles.results= cell(4,1);
 handles.results{1,1}=['Chris']
 handles.results{1,2}= ['Stefanatos']
 handles.results{1,3}= ['c.stefanatos@parityplatform.com']
-handles.results{1,4}= ['0'];
-
-handles.qnum = 3
+handles.results{1,4}= ['60'];
+handles.qnum = 3;
 handles.UANSWER = cell(1,3);
 handles.ANSWER = cell(1,3)
 handles.atext= cell(3,3)
@@ -201,7 +199,10 @@ set(handles.question,'String',[(handles.qtext{1,handles.qcounter})]);
  set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})]);
 else
     %gameover
-    set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+        set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+           set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+    final_score = (handles.score/handles.qnum )*100;
+    handles.results{1,4}= num2str(final_score);
     fileID = fopen('Parity.txt','w');
      fprintf(fileID,'%-14s\r\n',[handles.results{1,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{1,2}]);
@@ -243,6 +244,8 @@ set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
 else
     %gameover
     set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+    final_score= (handles.score/handles.qnum )*100;
+    handles.results{1,4}= num2str(final_score);
     fileID = fopen('Parity.txt','w');
      fprintf(fileID,'%-14s\r\n',[handles.results{1,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{1,2}]);
@@ -281,6 +284,9 @@ set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
 else
     %gameover
  set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+    set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
+    final_score= (handles.score/handles.qnum)*100;
+    handles.results{1,4}= num2str(final_score);
  set(handles.option1, 'String',[(handles.atext{handles.qnum,1})]);
  set(handles.option2, 'String',[(handles.atext{handles.qnum,2})]);
  set(handles.option3, 'String',[(handles.atext{handles.qnum,3})]);
