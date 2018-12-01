@@ -52,6 +52,21 @@ function sri_game_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for sri_game
 handles.output = 'Yes';
+ha = axes('units','normalized', ...
+            'position',[0 0 1 1]);
+% Move the background axes to the bottom
+uistack(ha,'bottom');
+% Load in a background image and display it using the correct colors
+% The image used below, is in the Image Processing Toolbox.  If you do not have %access to this toolbox, you can use another image file instead.
+I=imread('back.png');
+hi = imagesc(I)
+colormap gray
+% Turn the handlevisibility off so that we don't inadvertently plot into the axes again
+% Also, make the axes invisible
+set(ha,'handlevisibility','off', ...
+            'visible','off')
+
+
 handles.qcounter = 1;
 handles.score=0
 handles.results= cell(4,1);
@@ -69,14 +84,15 @@ handles.ANSWER{1,2} = char('option2')
 handles.ANSWER{1,3} = char('option1')
 handles.qtext= cell(1,3)
 handles.qtext{1,1}= ['Socially responsible investing (SRI) is becoming more and more popular for both institutional and retail investors.  It involves :'];
-handles.qtext{1,2}= ['When comparing returns of two European Stock indices : MSCI Europe(general stock index) and MSCI Europe SRI ( exposure to companies with outstanding Environmental, Social and Governance (ESG) ratings and excludes companies whose products have negative social or environmental impacts) whice of the following statements is correct ?'];   
-handles.qtext{1,3}= ['will find out']
+handles.qtext{1,2}= ['When comparing returns of two European Stock indices : MSCI Europe(general stock index) and MSCI Europe SRI ( exposure to companies with outstanding ESG ratings) :'];   
+handles.qtext{1,3}= ['Text Complete. The points you scored on the test have been credited to your "Go for More" account']
 handles.atext{1,1}=['Donation based allocatios to non-profit organizations solving society,s issues.']
 handles.atext{1,2}=['Profit seeking allocations in companies that excel in corporate governance and responsibility standards or to companies whose operations positively impact social or environmental issues.']
 handles.atext{1,3}=['Allocations in companies that have donated amounts of their profits to charitable organizations.']
 handles.atext{2,1}=['SRI index returns were lower than the general index. (Socially Responsible investing led to lower performance)']
 handles.atext{2,2}=['SRI index returns were higher than the general index. (Socially Responsible investing led to higher performance)']
 handles.atext{2,3}= [' SRI index returns were negative, since sri allocations are not profit seeking']
+handles.atext{3,1}= ['Complete test and receive your go for more points']
 handles.gameover = 0;
 % Update handles structure
 guidata(hObject, handles);
@@ -192,6 +208,9 @@ else
      fprintf(fileID,'%-14s\r\n',[handles.results{1,3}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{1,4}]);
      fclose(fileID);
+     set(handles.option1, 'String',[(handles.atext{3,1})])
+ set(handles.option2, 'String',[(handles.atext{3,2})])
+ set(handles.option3, 'String',[(handles.atext{3,3})])
      handles.gameover=1
 end
 
@@ -230,6 +249,9 @@ else
      fprintf(fileID,'%-14s\r\n',[handles.results{1,3}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{1,4}]);
      fclose(fileID);
+     set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})])
+ set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})])
+ set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})])
     handles.gameover=1
 end
 
