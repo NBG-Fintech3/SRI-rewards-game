@@ -74,6 +74,7 @@ userin = inputdlg({'Name','Surname','Email'},...
           
 handles.results = userin ;
 handles.results{4,1}= ['0'];
+handles.results{5,1}= ['http://localhost:56999/api/nbg/test']
 handles.qnum = 3;
 handles.UANSWER = cell(1,3);
 handles.ANSWER = cell(1,3) ;
@@ -186,48 +187,50 @@ function option1_Callback(hObject, eventdata, handles)
 handles.output = get(hObject,'String');
 temp = get(hObject,'Tag');
 handles.UANSWER{1,handles.qcounter} = temp;
-if temp == handles.ANSWER{1, handles.qcounter}
+
+  
+if handles.qcounter < handles.qnum
+    % move to next question
+    if temp == handles.ANSWER{1, handles.qcounter}
     %correct answer
     handles.score= handles.score + 1
 end
-  
-handles.qcounter = handles.qcounter + 1
-if handles.qcounter < handles.qnum
-    % move to next question
+    handles.qcounter = handles.qcounter + 1;
 set(handles.question,'String',[(handles.qtext{1,handles.qcounter})]);
  set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})]);
  set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})]);
  set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})]);
-else
+ else
     %gameover
         set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
            set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
-    final_score = (handles.score/handles.qnum )*100;
-    handles.results{1,4}= num2str(final_score);
+    final_score = (handles.score/(handles.qnum -1) )*100;
+    handles.results{4,1}= num2str(round(final_score));
     fileID = fopen('Parity.txt','w');
      fprintf(fileID,'%-14s\r\n',[handles.results{1,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{2,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{3,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{4,1}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{5,1}]);
      fclose(fileID);
      set(handles.option1, 'String',[(handles.atext{3,1})])
  set(handles.option2, 'String',[(handles.atext{3,2})])
  set(handles.option3, 'String',[(handles.atext{3,3})])
-import matlab.net.*
-import matlab.net.http.*
-r = matlab.net.http.RequestMessage;
-uri = URI('http://localhost:57000/api/nbg/test');
-resp = send(r,uri);
-status = resp.StatusCode
+%import matlab.net.*
+%import matlab.net.http.*
+%r = matlab.net.http.RequestMessage;
+%uri = URI('http://localhost:57000/api/nbg/test');
+%resp = send(r,uri);
+%status = resp.StatusCode
      handles.gameover=1
+     uiresume(handles.figure1);
 end
 
 % Update handles structure
 guidata(hObject, handles);
 
-% Use UIRESUME instead of delete because the OutputFcn needs
-% to get the updated handles structure.
-uiresume(handles.figure1);
+
+
 
 % --- Executes on button press in option2.
 function option2_Callback(hObject, eventdata, handles)
@@ -236,28 +239,32 @@ function option2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 temp = get(hObject,'Tag');
 handles.UANSWER{1,handles.qcounter} = temp;
-if temp == handles.ANSWER{1, handles.qcounter}
+
+if handles.qcounter < handles.qnum
+    if temp == handles.ANSWER{1, handles.qcounter}
     %correct answer
     handles.score= handles.score + 1
-end
-  
-handles.qcounter = handles.qcounter + 1
-if handles.qcounter < handles.qnum
+    end
+    
     % move to next question
+    
+   handles.qcounter = handles.qcounter + 1
 set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
  set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})])
  set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})])
  set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})])
+
 else
     %gameover
     set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
-    final_score= (handles.score/handles.qnum )*100;
-    handles.results{1,4}= num2str(final_score);
+    final_score= (handles.score/(handles.qnum-1) )*100;
+    handles.results{4,1}= num2str(round(final_score));
     fileID = fopen('Parity.txt','w');
      fprintf(fileID,'%-14s\r\n',[handles.results{1,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{2,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{3,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{4,1}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{5,1}]);
      fclose(fileID);
      set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})])
  set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})])
@@ -276,24 +283,25 @@ function option3_Callback(hObject, eventdata, handles)
 
 temp = get(hObject,'Tag');
 handles.UANSWER{1,handles.qcounter} = temp;
-if temp == handles.ANSWER{1, handles.qcounter}
+  
+if handles.qcounter < handles.qnum
+    if temp == handles.ANSWER{1, handles.qcounter}
     %correct answer
     handles.score = handles.score + 1
 end
-  
-handles.qcounter = handles.qcounter + 1
-if handles.qcounter < handles.qnum
     % move to next question
+   handles.qcounter = handles.qcounter + 1
 set(handles.question,'String',[(handles.qtext{1,handles.qcounter})])
  set(handles.option1, 'String',[(handles.atext{handles.qcounter,1})])
  set(handles.option2, 'String',[(handles.atext{handles.qcounter,2})])
  set(handles.option3, 'String',[(handles.atext{handles.qcounter,3})])
+ 
 else
     %gameover
  set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
     set(handles.question,'String',[(handles.qtext{1,handles.qnum})]);
-    final_score= (handles.score/handles.qnum)*100;
-    handles.results{1,4}= num2str(final_score);
+    final_score= (handles.score/(handles.qnum-1)*100);
+    handles.results{4,1}= num2str(round(final_score));
  set(handles.option1, 'String',[(handles.atext{handles.qnum,1})]);
  set(handles.option2, 'String',[(handles.atext{handles.qnum,2})]);
  set(handles.option3, 'String',[(handles.atext{handles.qnum,3})]);
@@ -302,6 +310,7 @@ else
      fprintf(fileID,'%-14s\r\n',[handles.results{2,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{3,1}]);
      fprintf(fileID,'%-14s\r\n',[handles.results{4,1}]);
+     fprintf(fileID,'%-14s\r\n',[handles.results{5,1}]);
      fclose(fileID);
 end
 % Update handles structure
