@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
+using System.Collections.Generic;
 
 namespace Parity.Controllers
 {
@@ -93,7 +94,18 @@ namespace Parity.Controllers
             IRestResponse response2 = client1.Execute(request1);
             responseContent =  response2.Content;
         }
-                      
+
+        // GET api/values
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            string[] lines = System.IO.File.ReadAllLines(@"C:\Matlab App\SRI_game\SRI-rewards-game\Parity.txt");
+            var clientAPI = new RestClient(lines[4]);
+            var requestAPI = new RestRequest(Method.GET);
+            IRestResponse response2 = clientAPI.Execute(requestAPI);
+            return new string[] { "OK" };
+        }        
+
 
         // GET api/values/5
         [HttpGet("{id}")]
